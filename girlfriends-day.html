@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy National Girlfriend's Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Parisienne&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #3A2430;
+    --ink-soft: #6B4A57;
+    --paper: #F3E6D2;
+    --paper-shadow: #E4D2B4;
+    --envelope: #7C2D42;
+    --envelope-dark: #5C1F30;
+    --envelope-flap: #922F49;
+    --gold: #C9A24B;
+    --gold-light: #E4C97A;
+    --bg-1: #1E0E17;
+    --bg-2: #3B1526;
+    --bg-3: #591F35;
+    --rose: #D98BA0;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: radial-gradient(ellipse at 50% -10%, var(--bg-3) 0%, var(--bg-2) 45%, var(--bg-1) 100%);
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--paper);
+    overflow-x: hidden;
+  }
+
+  .stage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6vh 20px;
+    position: relative;
+  }
+
+  /* ambient floating hearts */
+  .ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .ambient span {
+    position: absolute;
+    bottom: -10%;
+    font-size: 14px;
+    color: var(--rose);
+    opacity: 0.35;
+    animation: float linear infinite;
+  }
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.35; }
+    90% { opacity: 0.25; }
+    100% { transform: translateY(-115vh) translateX(20px) rotate(25deg); opacity: 0; }
+  }
+
+  .eyebrow {
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: var(--gold-light);
+    margin-bottom: 14px;
+    text-align: center;
+    z-index: 1;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+  }
+
+  h1.title {
+    font-family: 'Parisienne', cursive;
+    font-weight: 400;
+    font-size: clamp(38px, 7vw, 62px);
+    color: var(--paper);
+    text-align: center;
+    margin: 0 0 46px;
+    z-index: 1;
+    text-shadow: 0 2px 24px rgba(201, 162, 75, 0.25);
+  }
+
+  /* ===== ENVELOPE ===== */
+  .envelope-wrap {
+    position: relative;
+    width: min(88vw, 380px);
+    aspect-ratio: 3 / 2;
+    z-index: 1;
+    perspective: 1600px;
+  }
+
+  .envelope-wrap.opened .prompt { opacity: 0; pointer-events: none; }
+
+  .prompt {
+    position: absolute;
+    bottom: -42px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: clamp(18px, 4vw, 24px);
+    color: var(--rose);
+    letter-spacing: 0.06em;
+    transition: opacity 0.4s ease;
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:0.55;} 50%{opacity:1;} }
+
+  .envelope {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  .env-body {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, var(--envelope) 0%, var(--envelope-dark) 100%);
+    border-radius: 6px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6), 0 10px 24px -8px rgba(0,0,0,0.4);
+    z-index: 2;
+  }
+
+  .env-body::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(228, 201, 122, 0.35);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  /* side + bottom triangular pockets, drawn with borders */
+  .env-pocket-left, .env-pocket-right, .env-pocket-bottom {
+    position: absolute;
+    width: 0; height: 0;
+    z-index: 4;
+  }
+.env-pocket-bottom{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:48%;
+    clip-path:polygon(0 100%,50% 0,100% 100%);
+    background:var(--envelope-dark);
+    z-index:4;
+}
+
+.env-pocket-left{
+    position:absolute;
+    left:0;
+    top:0;
+    width:50%;
+    height:100%;
+    clip-path:polygon(0 0,100% 50%,0 100%);
+    background:var(--envelope);
+    z-index:4;
+}
+
+.env-pocket-right{
+    position:absolute;
+    right:0;
+    top:0;
+    width:50%;
+    height:100%;
+    clip-path:polygon(100% 0,0 50%,100% 100%);
+    background:var(--envelope);
+    z-index:4;
+}
+
+  .letter {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 6%;
+    bottom: 8%;
+    background: var(--paper);
+    border-radius: 3px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    z-index: 1;
+    transition: transform 1.9s cubic-bezier(0.22, 0.61, 0.16, 1) 0.55s, z-index 0s 0.55s;
+    transform: translateY(6%);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 24px;
+    overflow: hidden;
+  }
+  .letter-peek {
+    font-family: 'Parisienne', cursive;
+    color: var(--ink-soft);
+    font-size: 20px;
+    opacity: 0.8;
+  }
+  .envelope-wrap.opened .letter {
+    transform: translateY(-64%);
+    z-index: 6;
+  }
+
+  .flap {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 55%;
+    background: linear-gradient(155deg, var(--envelope-flap), var(--envelope-dark));
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transform: rotateX(0deg);
+    transition: transform 1.7s cubic-bezier(0.45, 0, 0.15, 1);
+    z-index: 5;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+  .envelope-wrap.opened .flap {
+    transform: rotateX(178deg);
+    z-index: 1;
+  }
+
+  .seal {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    width: clamp(48px, 14vw, 62px);
+    height: clamp(48px, 14vw, 62px);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 55%, #9c7a2e 100%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 -3px 6px rgba(0,0,0,0.25);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.9s ease, opacity 0.9s ease;
+  }
+  .seal svg{
+    width:50%;
+    height:50%;
+  }
+  .envelope-wrap.opened .seal {
+    transform: translate(-50%, -50%) scale(0.4) rotate(35deg);
+    opacity: 0;
+  }
+
+  .envelope:active .seal { transform: translate(-50%, -50%) scale(0.94); }
+
+  /* ===== FULL LETTER OVERLAY ===== */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 16px;
+    background: rgba(20, 8, 15, 0.72);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.9s ease;
+  }
+  .overlay.show { opacity: 1; pointer-events: auto; }
+
+  .page {
+    position: relative;
+    width: min(92vw, 560px);
+    max-height: 86vh;
+    overflow-y: auto;
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 4px;
+    padding: 52px 44px 44px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    transform: translateY(40px) scale(0.96);
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .overlay.show .page { transform: translateY(0) scale(1); }
+
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(124, 45, 66, 0.25);
+    pointer-events: none;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1;
+    padding: 6px 10px;
+  }
+  .close-btn:hover { color: var(--envelope); }
+
+  .salutation {
+    font-family: 'Parisienne', cursive;
+    font-size: 34px;
+    color: var(--envelope);
+    margin: 0 0 22px;
+  }
+
+  .letter-body p {
+    font-size: 19px;
+    line-height: 1.75;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+
+  .signoff {
+    margin-top: 30px;
+    font-family: 'Parisienne', cursive;
+    font-size: 30px;
+    color: var(--envelope);
+  }
+
+  .heart-divider {
+    text-align: center;
+    color: var(--gold);
+    margin: 26px 0;
+    font-size: 14px;
+    letter-spacing: 0.4em;
+  }
+
+  footer {
+    z-index: 1;
+    margin-top: 50px;
+    font-size: clamp(16px, 3vw, 20px);
+    color: var(--ink-soft);
+    opacity: 0.55;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flap, .letter, .seal, .overlay, .page, .ambient span { transition: none !important; animation: none !important; }
+  }
+
+  /* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+  .stage{
+    padding: 30px 15px;
+  }
+
+  .eyebrow{
+    font-size: 11px;
+    letter-spacing: .2em;
+  }
+
+  h1.title{
+    font-size: 2.2rem;
+    margin-bottom: 35px;
+    line-height: 1.2;
+  }
+
+  .envelope-wrap{
+    width: 95vw;
+    max-width: 340px;
+  }
+
+  .prompt{
+    font-size: 14px;
+    bottom: -35px;
+  }
+
+  .page{
+    width: calc(100vw - 20px);
+    max-height: 92vh;
+    padding: 30px 22px;
+    border-radius: 10px;
+  }
+
+  .salutation{
+    font-size: 2rem;
+  }
+
+  .letter-body p{
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .signoff{
+    font-size: 1.9rem;
+  }
+
+  footer{
+    margin-top: 30px;
+    font-size: 12px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="ambient" id="ambient"></div>
+
+<div class="stage">
+  <div class="eyebrow">Happy National Girlfriend Day My Ginu ❤</div>
+  <h1 class="title">A little attempt from my end, hope you will like it 🥺</h1>
+
+  <div class="envelope-wrap" id="envelopeWrap">
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open the envelope to read your letter">
+      <div class="env-pocket-bottom"></div>
+      <div class="letter"><span class="letter-peek">for you</span></div>
+      <div class="env-pocket-left"></div>
+      <div class="env-pocket-right"></div>
+      <div class="env-body"></div>
+      <div class="flap">
+        <div class="seal">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21s-7.2-4.6-9.7-9.1C.7 8.6 2 5 5.4 4.3c2-.4 3.8.6 4.9 2.3.8-1.7 2.9-2.7 4.9-2.3C18.6 5 19.9 8.6 18.4 11.9 15.9 16.4 12 21 12 21z" fill="#5C1F30"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="prompt">Tap the seal to open</div>
+  </div>
+
+  <footer>Made with love, just for you, by Ayush</footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="page">
+    <button class="close-btn" id="closeBtn" aria-label="Close letter">&times;</button>
+    <p class="salutation">My dearest Panda, Baby, Bhalu, Choti, Cutie 🥺💋,</p>
+    <div class="letter-body">
+      <p>Today is officially a day to celebrate girlfriends, but if I'm being honest, I don't need a special day to celebrate you because every single day you give me a reason to be grateful that you're in my life. Still, today gives me another excuse to tell you just how incredibly special you are to me. But remember that celebrating girlfriend's day does'nt mean you are just my girlfriend okay? Cuz you are my wife ❤️
+        
+      You know, sometimes I sit quietly and wonder how I got so lucky. Out of billions of people in this world, somehow life introduced me to a girl who has such a soft heart, such beautiful emotions, and such a caring soul. You're not just my girlfriend, baby. You're my comfort, my happiness, my safe place, my biggest blessing, and the person my heart naturally searches for whenever life feels heavy❤️
+
+      I love your cute little smile that can brighten my mood without even trying. I love your beautiful eyes that somehow express things words never can. I love your adorable expressions, your tiny tantrums, your dramatic moments, your stubbornness, your random mood swings, and even the way you get annoyed sometimes because all of those little things make you... you. 🤏🏻🥺❤️
+
+      I love how deeply you care for the people you love. I love how emotional you are because it shows how pure your heart really is. I love how you dream about our future together, how you imagine our first home, our first dog, our little adventures, and growing old together. Every time you talk about those dreams, I unknowingly start believing in them a little more because they're with you, and hopefully voh sach bhi honge right? 🏡🐶❤️
+
+      You're my choti bachi, my pyari si gudiya rani, my princess, my cutie, my baby, and every cute nickname I call you carries a little piece of my heart. Sometimes I want to protect you from every little sadness in this world, hold your hand through every difficult phase, remind you to study when you forget, make sure you're eating properly, tell you to sleep on time, and just take care of you in every way I possibly can. Not because you can't do these things yourself, but because loving you naturally makes me want to look after you🤍
+
+      One thing I admire so much about you is your effort. Whether it's the little things or the big things, whenever you decide to do something for me, you give it your whole heart. Your birthday gift for me is still one of the most beautiful things anyone has ever given me. Also so the song video you made-every clip you selected, every lyric you placed manually, every minute you spent editing—it wasn't just a video. It was your love made visible. It's something I'll always treasure because it wasn't bought; it was created with patience, dedication, and Gini's beautiful heart❤️
+
+      We've never had the easiest journey. We've been long distance, we've had misunderstandings, we've cried, we've argued, we've reached moments where everything felt uncertain. But even then, somehow we found reasons to stay. We chose conversations over giving up, hope over fear, and love over ego. And honestly, that makes me even more proud of us❤️
+
+      I know we're not perfect, and maybe we'll never be. But I don't want perfection. I just want us. I want us to keep growing, keep learning, keep becoming better for each other. I want us to become the people we've always hoped, but together❤️
+
+      Thank you for loving me during my good days and trying to understand me during my difficult ones. Thank you for making me laugh when I forget how. Thank you for believing in me, supporting me, praying for me, celebrating my little victories, and reminding me that I'm never alone. You have no idea how much strength your presence gives me. Even when you're not physically here, just knowing you're in my life makes many difficult days feel easier❤️
+
+      I hope one day I get to tell our story while sitting beside you instead of through a phone screen. I hope one day all these hugs, forehead kisses, hand-holding, movie nights, random drives, late-night walks, and all the dreams we've spoken about become our everyday reality. Until then, I'll keep loving you from every distance, celebrating every milestone with you, and choosing you over and over again. ❤️
+
+      Happy National Girlfriend's Day to the prettiest girl, the cutest soul, the kindest heart, and the most precious person in my life. I hope you never forget how deeply you're loved, how appreciated you are, and how much happiness you've brought into my world.
+
+      I love you endlessly, meri choti bachi. Thank you for being my home even from miles away❤️🌹
+      </p>
+      <div class="heart-divider">&#10084;</div>
+      <p>Thank you for choosing me, every day, without needing a reason. Happy Girlfriend's Day</p>
+    </div>
+    <p class="signoff">Always yours, Ayush (Tumhara Guu Insaan)</p>
+  </div>
+</div>
+
+<script>
+  const wrap = document.getElementById('envelopeWrap');
+  const env = document.getElementById('envelope');
+  const overlay = document.getElementById('overlay');
+  const closeBtn = document.getElementById('closeBtn');
+
+  function openEnvelope() {
+    if (wrap.classList.contains('opened')) return;
+    wrap.classList.add('opened');
+    setTimeout(() => { overlay.classList.add('show'); }, 2500);
+  }
+
+  env.addEventListener('click', openEnvelope);
+  env.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
+  });
+
+  closeBtn.addEventListener('click', () => overlay.classList.remove('show'));
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('show');
+  });
+
+  // ambient floating hearts
+  const ambient = document.getElementById('ambient');
+  const glyphs = ['&#10084;', '&#10022;'];
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement('span');
+    s.innerHTML = glyphs[i % 2];
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.fontSize = 10 + Math.random() * 14 + 'px';
+    s.style.animationDuration = 14 + Math.random() * 12 + 's';
+    s.style.animationDelay = Math.random() * -20 + 's';
+    ambient.appendChild(s);
+  }
+</script>
+
+</body>
+</html>
